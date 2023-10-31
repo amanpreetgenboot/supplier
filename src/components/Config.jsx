@@ -11,59 +11,45 @@ import React, { useEffect, useState } from "react";
 
 
 
-const data = [
-  {
-    documentName: "Check",
-    format: "PDF",
-    minFileSize: "250KB",
-    maxFileSize: "2MB",
-    category: "EUPO Document",
-  },
-  {
-    documentName: "Test",
-    format: "PDF",
-    minFileSize: "250KB",
-    maxFileSize: "5MB",
-    category: "PO Document",
-  },
-  {
-    documentName: "SSN",
-    format: "PDF",
-    minFileSize: "250KB",
-    maxFileSize: "5MB",
-    category: "EUPO Document",
-  },
-];
 
 function Config() {
+  const [data, setData] = useState([]);
+
+  console.log(data,"itt")
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTg2NzM4MjIsImlhdCI6MTY5ODY1OTQyMn0.7xL_9EsDmmWwPKr2Qq0i6KooPHHVrB9D5zRhAiWyReK_2VgtxH1z5sdSKxPQnjhRkatqRWWmpewnhiYepk87vA";
+        const pages = 0; 
+        const size = 20; 
         const response = await fetch(
-          "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/departments",
+          `https://dev.supplychainapi.hexalytics.in:8086/v1/oms/documentConfig?pages=${pages}&size=${size}`,
           {
             method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+             
+            },
           }
         );
-
+   
         if (!response.ok) {
-          console.log(Error, "errror rhehrh");
+          console.log(Error, "error occurred");
           throw new Error("Network response was not ok");
         }
-
+  
         const result = await response.json();
-
-        console.log(result, "response here");
+        console.log(result,"=====")
+        console.log(result.beans,"bin")
+        setData(result.beans);
       } catch (error) {
-        console.error(
-          "There has been a problem with your fetch operation:",
-          error
-        );
+        console.error("There has been a problem with your fetch operation:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+  
   return (
     <div className="App">
       <div className="bgImage">
@@ -173,18 +159,20 @@ function Config() {
           tableStyle={{ minWidth: "20rem" }}
           className="dataTable"
         >
-          <Column
-            selectionMode="multiple"
-            headerStyle={{ width: "1rem" }}
-          ></Column>
+          {/* <Column
+          field="name"
+            // selectionMode="multiple"
+            // headerStyle={{ width: "1rem" }}
+            header='Document Name'
+          ></Column> */}
           <Column
             field="documentName"
-            header="Document Name"
             style={{
               minWidth: "10rem",
               fontWeight: "400",
               fontSize: "0.80rem",
             }}
+            header="Document Name"
           />
           <Column
             field="format"

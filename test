@@ -1,0 +1,254 @@
+import React from 'react';
+import '../stylesheets/styles.css';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+
+const DataTableContent = ({
+    summaryData,
+    paymentsData,
+    taxData,
+    revenueAndChargesData,
+    statisticsData,
+    loading,
+    loadingIcon,
+}) => {
+    const requiredRevenueAndChargesData = {};
+    const requiredSummaryData = {};
+    const requiredTaxData = {};
+    const requiredOtherTaxData = {};
+    const requiredPaymentProcessorsData = {};
+
+    const requiredOtherLedgerCategoriesDataField = [{ ...statisticsData }];
+
+    summaryData?.forEach(item => {
+        if (item) {
+            requiredSummaryData[item.type] = item.actual;
+        }
+    });
+
+    paymentsData?.forEach(item => {
+        if (item) {
+            requiredPaymentProcessorsData[item.type] = item.actual;
+        }
+    });
+
+    taxData?.forEach(item => {
+        if (item) {
+            if (item.type === 'CT' || item.type === 'ST' || item.type === 'SAT') {
+                requiredTaxData[item.type] = item.actual;
+            } else requiredOtherTaxData[item.type] = item.actual;
+        }
+    });
+
+    revenueAndChargesData?.forEach(item => {
+        if (item) {
+            requiredRevenueAndChargesData[item.type] = item.actual;
+        }
+    });
+
+    const requiredSummaryDataField = [requiredSummaryData];
+    const requiredTaxDataField = [requiredTaxData];
+    const requiredOtherTaxDataField = [requiredOtherTaxData];
+    const requiredRevenueAndChargesDataField = [requiredRevenueAndChargesData];
+    const requiredPaymentProcessorsDataField = [requiredPaymentProcessorsData];
+
+    return (
+        <>
+            {loading ? (
+                loadingIcon
+            ) : (
+                <>
+                    <h3 className='heading_h3'>Revenue and Charges</h3>
+
+                    <div className='card revenueAndChargesWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredRevenueAndChargesDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='NSRR'
+                                header='No Show Room Rent'></Column>
+                            <Column
+                                field='RRA'
+                                header='Room Rent Adjustment'></Column>
+                            <Column
+                                field='RTC'
+                                header='Room Type Change'></Column>
+                            <Column
+                                field='MINT'
+                                header='Miscellaneous Non Taxable'></Column>
+                            <Column
+                                field='RR'
+                                header='Room Rent'></Column>
+                            <Column
+                                field='ADRR'
+                                header='Extra Adult'></Column>
+                            <Column
+                                field='ENSRR'
+                                header='Extra No Show Room Rent'></Column>
+                            <Column
+                                field='MIT'
+                                header='Miscellaneous Taxable'></Column>
+                            <Column
+                                field=''
+                                header='Laundry Income Coin Operated'></Column>
+                            <Column
+                                field=''
+                                header='Property Damage Recovery'></Column>
+                            <Column
+                                field=''
+                                header='Vending Revenue'></Column>
+                            <Column
+                                field=''
+                                header='Room Rent Deposit'></Column>
+                            <Column
+                                field=''
+                                header='Security Deposit'></Column>
+                            <Column
+                                field=''
+                                header='Early Check-In'></Column>
+                            <Column
+                                field=''
+                                header='Additional Room Revenue'></Column>
+                        </DataTable>
+                    </div>
+
+                    <h3 className='heading_h3'>Taxes</h3>
+                    <div className='card taxDataWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredTaxDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='CT'
+                                header='City Tax'></Column>
+                            <Column
+                                field='ST'
+                                header='State Tax'></Column>
+                            <Column
+                                field='SAT'
+                                header='Sales Tax'></Column>
+                            <Column
+                                field=''
+                                header='CA Tourism Assessment'></Column>
+                        </DataTable>
+                    </div>
+
+                    <h3 className='heading_h3'>Other Taxes</h3>
+                    <div className='card otherTaxesWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredOtherTaxDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='FT'
+                                header='Flat Tax'></Column>
+                            <Column
+                                field='STP'
+                                header='Sales Tax POS'></Column>
+                            <Column
+                                field='S1'
+                                header='Sales-One Tax'></Column>
+                            <Column
+                                field='S2'
+                                header='Sales-Two Tax'></Column>
+                        </DataTable>
+                    </div>
+
+                    <h3 className='heading_h3'>Payment Processors</h3>
+
+                    <div className='card paymentsDataWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredPaymentProcessorsDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='MASTER'
+                                header='Master'></Column>
+                            <Column
+                                field='DISCOVER'
+                                header='Discover'></Column>
+                            <Column
+                                field='AMEX'
+                                header='Amex'></Column>
+                            <Column
+                                field='VISA'
+                                header='Visa'></Column>
+                            <Column
+                                field='CASH'
+                                header='Cash'></Column>
+                            <Column
+                                field='CHCK'
+                                header='Check'></Column>
+                            <Column
+                                field='GRTS'
+                                header='Gratis'></Column>
+                            <Column
+                                field=''
+                                header='Gift Certificate Franchise'></Column>
+                            <Column
+                                field=''
+                                header='Alternative Method of Payment'></Column>
+                            <Column
+                                field=''
+                                header='Bad Debt - GM Evict'></Column>
+                            <Column
+                                field=''
+                                header='Hospitality Adjustment'></Column>
+                            <Column
+                                field=''
+                                header='Wire Transfer'></Column>
+                            <Column
+                                field=''
+                                header='Cash Overage/Shortage'></Column>
+                        </DataTable>
+                    </div>
+
+                    <h3 className='heading_h3'>Rooms And Guest Statistics</h3>
+                    <div className='card roomsAndGuestsDataWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredSummaryDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='room_available'
+                                header='Available Room'></Column>
+                            <Column
+                                field='room_sold'
+                                header='Room Sold'></Column>
+                            <Column
+                                field='total_guests'
+                                header='Total Guests'></Column>
+                        </DataTable>
+                    </div>
+
+                    <h3 className='heading_h3'>Other Ledger Categories</h3>
+                    <div className='card otherLedgerWrapper dataTableWrapper'>
+                        <DataTable
+                            value={requiredOtherLedgerCategoriesDataField}
+                            tableStyle={{ minWidth: '50rem' }}>
+                            <Column
+                                field='advance_deposit_net_change'
+                                header='Advance Deposit Net Change'></Column>
+                            <Column
+                                field='in_house_net_change'
+                                header='In House Net Change'></Column>
+                            <Column
+                                field='house_account_net_change'
+                                header='House Account Net Change'></Column>
+                            <Column
+                                field='total_closed_folio_net_change'
+                                header='Total Closed Folio Net Change'></Column>
+                            <Column
+                                field=''
+                                header='In House Group Master Net Change'></Column>
+                            <Column
+                                field=''
+                                header='Local Direct Bill'></Column>
+                            <Column
+                                field=''
+                                header='Corporate Direct Bill'></Column>
+                        </DataTable>
+                    </div>
+                </>
+            )}
+        </>
+    );
+};
+
+export default DataTableContent;

@@ -16,7 +16,7 @@ padding: 1rem;
 background-color: rgb(225, 230, 235);
 }
 .bgimgHeader h1{
-position: relative;
+position: inherit;
 bottom: 1rem;
 font-size: 1.5rem;
 }
@@ -94,8 +94,8 @@ font-size: 0.8rem;
 }
 
 .SearchInput{
-  width: 9vw;
-  height: 6vh;
+  width: 7vw;
+  height: 4vh;
   font-size: 12px;
   text-align: center;
 }
