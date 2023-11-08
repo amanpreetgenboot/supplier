@@ -1,55 +1,145 @@
-// import ContactForm from './components/ConfigurationList'
 import "./Config.css";
-// import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
-// import { Dropdown } from "primereact/dropdown";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { Toast } from "primereact/toast";
+import { Dropdown } from "primereact/dropdown";
 
+import { Checkbox } from "primereact/checkbox";
 
-
+import axios from "axios";
+import { InputSwitch } from "primereact/inputswitch";
 
 function Config() {
-  const [data, setData] = useState([]);
-
-  console.log(data,"itt")
+  const toast = useRef(null);
+  const mandatoryRowCats = ["PO Document", "Quotation", "EUPO Document"];
+  const [documentName, setDocumentName] = useState([]);
+  const [format, setFormat] = useState([]);
+  const [minSize, setminSize] = useState([]);
+  const [approverPopup, setApproverPopup] = useState(false);
+  const [approverPopupRow, setApproverPopupRow] = useState(null);
+  const [approverPopupRowData, setApproverPopupRowData] = useState(null);
+  const [maxSize, setmaxSize] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [approvalRequired, setApprovalRequired] = useState({});
+  const [approvalValues, setApprovalValues] = useState(null);
+  const [rowClick, setRowClick] = useState(null);
+  const [selectedProducts, setSelectedProducts] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
+      const url =
+        "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/documentmaster";
+      const headers = {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk0NTAxNzAsImlhdCI6MTY5OTQzNTc3MH0._ut-u_6vVRZzaHvL1DALsRUtqk4qcLyzSGQ-JYN4jc-Vh5uXUVTAg4RVCUZ7JIopLJ3HAWp28I8SyR8iyn53WQ",
+        Accept: "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "Access-Control-Request-Headers": "authorization,content-type",
+        "Access-Control-Request-Method": "GET",
+        Connection: "keep-alive",
+        Host: "dev.supplychainapi.hexalytics.in:8086",
+        Origin: "http://localhost:3000",
+        Referer: "http://localhost:3000/",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "cross-site",
+      };
+
       try {
-        const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTg2NzM4MjIsImlhdCI6MTY5ODY1OTQyMn0.7xL_9EsDmmWwPKr2Qq0i6KooPHHVrB9D5zRhAiWyReK_2VgtxH1z5sdSKxPQnjhRkatqRWWmpewnhiYepk87vA";
-        const pages = 0; 
-        const size = 20; 
-        const response = await fetch(
-          `https://dev.supplychainapi.hexalytics.in:8086/v1/oms/documentConfig?pages=${pages}&size=${size}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-             
-            },
-          }
-        );
-   
-        if (!response.ok) {
-          console.log(Error, "error occurred");
-          throw new Error("Network response was not ok");
-        }
-  
-        const result = await response.json();
-        console.log(result,"=====")
-        console.log(result.beans,"bin")
-        setData(result.beans);
+        const res = await axios.get(url, { headers });
+        const modifiedItems = res.data.beans.map((bean) => {
+          return { documentName: bean.documentName };
+        });
+        setDocumentName(modifiedItems);
+
+        const docTypeArrays = res.data.beans.map((bean) => bean.documentTypes);
+        const min = res.data.beans.map((bean) => bean.minFileSize);
+        setminSize(min);
+
+        const max = res.data.beans.map((bean) => bean.maxFileSize);
+        setmaxSize(max);
+
+        const cat = res.data.beans.map((bean) => bean.category.category);
+        console.log(cat, "cat");
+        setCategory(cat);
+
+        const allDocumentTypes = docTypeArrays
+          .map((d) => d.map((e) => e))
+          .flat();
+        const documentType = allDocumentTypes.map((e) => {
+          return { documentType: e.documentType };
+        });
+        setFormat(documentType);
       } catch (error) {
-        console.error("There has been a problem with your fetch operation:", error);
+        console.error(error);
       }
     };
-  
     fetchData();
   }, []);
+
+  const mergedArray = documentName.map((type, index) => ({
+    documentName: type.documentName,
+    documentType: format[index].documentType,
+    minFileSize: minSize[index],
+    maxFileSize: maxSize[index],
+    category: category[index],
+  }));
+  console.log(mergedArray, "merged");
+  const booleanValues = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+  ];
   
+  function handleRowValueChange(e, id, field) {
+    if (field === "approvalRequired") {
+      setApprovalRequired({ ...approvalRequired, [id]: e.target.value });
+    }
+  }
+
+  const handleApproverView = (row) => {
+    setApproverPopup(true);
+    setApproverPopupRow(row.id);
+    setApproverPopupRowData(row);
+  };
+
+
+  const constructDropdownColumn = (field, header, options, minWidth) => {
+    return (
+      <Column
+        className={"custDropdown inputPadding"}
+        field={field}
+        header={header}
+        style={{
+          minWidth: minWidth,
+          minWidth: "7rem",
+          fontWeight: "400",
+          fontSize: "0.80rem",
+        }}
+        body={(row) => (
+          <Dropdown
+            id={row.id}
+            itemTemplate={(option) => (
+              <div className="px-[25px]" title={option.title}>
+                {option.label}
+              </div>
+            )}
+            value={row[field]}
+            onChange={(e) => handleRowValueChange(e, row.id, field)}
+            options={options}
+            optionLabel="label"
+            placeholder="Select"
+            className="w-full md:w-14rem"
+          />
+        )}
+      />
+    );
+  };
+
   return (
     <div className="App">
       <div className="bgImage">
@@ -59,14 +149,16 @@ function Config() {
         </div>
 
         <div>
-          <Button
-            className="bgimage-btn"
-            label="Close"
-            icon="pi pi-times"
-            iconPos="right"
-            style={{ marginRight: "1.2rem" }}
-            severity="success"
-          />
+          <Link to={"/AddUsers"}>
+            <Button
+              className="bgimage-btn"
+              label="Close"
+              icon="pi pi-times"
+              iconPos="right"
+              style={{ marginRight: "1.2rem" }}
+              severity="success"
+            />
+          </Link>
         </div>
       </div>
       <div>
@@ -155,16 +247,31 @@ function Config() {
       </div>
       <div>
         <DataTable
-          value={data}
-          tableStyle={{ minWidth: "20rem" }}
-          className="dataTable"
+          className="custompaginator custIconsImg custmBtnTable custTable p-datatable-tbody"
+          scrollable
+          //  selectionMode={props.rowClick ? null : "checkbox"}
+          //  selection={props.dataTableSelectedRows}
+          paginator
+          paginatorTemplate={`FirstPageLink PrevPageLink PageLinks  'CurrentPageReport'} NextPageLink LastPageLink`}
+          rows={5}
+          // isDataSelectable={(event) => {
+          //   return true;
+          // }}
+          // isDataSelectable={(event) => {  return !props.mandatoryRowIds.includes(event.data.id); }}
+          selectionMode={rowClick ? null : "checkbox"}
+          selection={selectedProducts}
+          onSelectionChange={(e) => setSelectedProducts(e.value)}
+          dataKey="id"
+          tableStyle={{ minWidth: "50rem" }}
+          selectionAutoFocus={false}
+          emptyMessage="No data found"
+          value={mergedArray}
+          
         >
-          {/* <Column
-          field="name"
-            // selectionMode="multiple"
-            // headerStyle={{ width: "1rem" }}
-            header='Document Name'
-          ></Column> */}
+          <Column
+            selectionMode="multiple"
+            headerStyle={{ width: "3rem" }}
+          ></Column>
           <Column
             field="documentName"
             style={{
@@ -175,9 +282,9 @@ function Config() {
             header="Document Name"
           />
           <Column
-            field="format"
+            field="documentType"
             header="Format"
-            style={{ minWidth: "5rem", fontWeight: "400", fontSize: "0.80rem" }}
+            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
           <Column
             field="minFileSize"
@@ -194,50 +301,59 @@ function Config() {
             header="Category"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
-          <Column
-            field="Mandatory"
-            header="Mandatory"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Approval Required"
-            header="Approval Required"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Approval Value"
-            header="Approval Value"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Upload"
-            header="Upload"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Replace"
-            header="Replace"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Delete"
-            header="Delete"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Below Approval Value"
-            header="Below Approval Value"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Approver Department"
-            header="Approver Department"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
+          {constructDropdownColumn("mandatory", "Mandatory", booleanValues)}
+          {constructDropdownColumn(
+            "approvalRequired",
+            "Approval Required",
+            booleanValues
+          )}
+          {constructDropdownColumn(
+            "approvalValue",
+            "Approval Value",
+            approvalValues,
+            "7rem"
+          )}
+          ,
+          {constructDropdownColumn(
+            "approvalValue",
+            "Upload",
+            approvalValues,
+            "7rem"
+          )}
+          ,
+          {constructDropdownColumn(
+            "approvalValue",
+            "Replace",
+            approvalValues,
+            "7rem"
+          )}
+          ,
+          {constructDropdownColumn(
+            "approvalValue",
+            "Delete",
+            approvalValues,
+            "7rem"
+          )}
+          ,
+          {constructDropdownColumn(
+            "approvalValue",
+            "Below Approval Value",
+            approvalValues,
+            "7rem"
+          )}
+          ,
+          <Column field="approverDepartment" header="Approver Department" body={(row) => (
+                    <button
+                      onClick={(e) => approvalRequired[row.id] ? handleApproverView(row) : e.preventDefault()}
+                      type="button"
+                      disabled={!approvalRequired[row.id]}
+                      className="underline text-[#0f6cbd] print:no-underline print:text-[#494E5F]"
+                    >
+                      View
+                    </button>
+                  )} />
         </DataTable>
       </div>
-
-      <div></div>
     </div>
   );
 }
