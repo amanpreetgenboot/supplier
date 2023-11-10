@@ -13,7 +13,7 @@
 display: flex;
 justify-content: space-between;
 padding: 1rem;
-background-color: #019049;
+background-color: #dfe0e0;
 
 }
 .bgimgHeader h1{
@@ -59,12 +59,12 @@ display: flex
 
 
 .searchBar{
-  top: 1.2rem;
+  top: 0.4rem;
   position: relative;
   left: 9rem;
   box-sizing: border-box;
-  width: 300px;
-  height: 50px;
+  width: 18vw;
+  height: 5vh;
 }
 .vendorSelect{
 margin-right: 1.5rem;  

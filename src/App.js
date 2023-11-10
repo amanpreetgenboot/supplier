@@ -16,7 +16,9 @@ function App() {
 
   return (
     <>
-      <div>
+ <Master/>
+
+      {/* <div>
         {!redirectToFirstPage && (
           <button onClick={handleButtonClick}>Add User</button>
         )}
@@ -25,9 +27,8 @@ function App() {
           <Route path="/config" element={<Config />} />
           <Route path="/AddUsers" element={<AddConfiguration />} />
           
-          {/* Add more routes as needed */}
         </Routes>
-      </div>
+      </div> */}
     </>
   );
 }

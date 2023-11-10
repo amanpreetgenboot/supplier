@@ -4222,7 +4222,7 @@ input[type=number] {
 
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
-  -moz-appearance: none;
+  
   margin: 0
 }
 
@@ -13937,7 +13937,6 @@ input.p-dropdown-label {
   border: 0;
   cursor: pointer;
   display: inline-block;
-  float: left;
   height: 24px;
   padding: 3px 5px;
   width: 28px
@@ -14131,7 +14130,6 @@ input.p-dropdown-label {
 .ql-snow .ql-picker {
   color: #444;
   display: inline-block;
-  float: left;
   font-size: 14px;
   font-weight: 500;
   height: 24px;

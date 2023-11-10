@@ -1,4 +1,4 @@
-import "./Config.css";
+import "./DocumentMaster.css";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
@@ -40,17 +40,24 @@ function Master() {
 
         <div className="editSetting">
           <div>
-            <p>Edit Settings</p>
+            <p>Document Masters</p>
           </div>
 
           <div className="cancelbtn">
+          <div className="searchBar">
+              <span className="p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText placeholder="Search" className="SearchInput" />
+              </span>
+            </div>
             <div className="cancelbutton">
-              <Button label="Cancel" severity="secondary" outlined />
+              
+              <Button label="Add Dimension" severity="secondary" outlined />
             </div>
             <div>
               <Button
                 className="bgimage-btn"
-                label="Close"
+                label="Add Records"
                 severity="success"
               />
             </div>
@@ -75,18 +82,8 @@ function Master() {
           />
           <Column
             field="documentName"
-            header="Format"
+            header="Document Type"
             style={{ minWidth: "5rem", fontWeight: "400", fontSize: "0.80rem" }}
-          />
-          <Column
-            field="documentName"
-            header="Min. File Size"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          />
-          <Column
-            field="documentName"
-            header="Max. File Size"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
           <Column
             field="documentName"
@@ -95,42 +92,18 @@ function Master() {
           />
           <Column
             field="documentName"
-            header="Mandatory"
+            header="Min File Size"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
+          />
           <Column
             field="documentName"
-            header="Approval Required"
+            header="	
+            Max File Size"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
+          />
           <Column
             field="documentName"
-            header="Approval Value"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="documentName"
-            header="Upload"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Replace"
-            header="Replace"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Delete"
-            header="Delete"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Below Approval Value"
-            header="Below Approval Value"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
-          <Column
-            field="Approver Department"
-            header="Approver Department"
+            header="Actions"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           ></Column>
         </DataTable>

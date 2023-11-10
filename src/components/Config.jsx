@@ -6,17 +6,13 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Toast } from "primereact/toast";
 import { Dropdown } from "primereact/dropdown";
 
-import { Checkbox } from "primereact/checkbox";
-
 import axios from "axios";
-import { InputSwitch } from "primereact/inputswitch";
 
 function Config() {
   const toast = useRef(null);
-  const mandatoryRowCats = ["PO Document", "Quotation", "EUPO Document"];
+  // const mandatoryRowCats = ["PO Document", "Quotation", "EUPO Document"];
   const [documentName, setDocumentName] = useState([]);
   const [format, setFormat] = useState([]);
   const [minSize, setminSize] = useState([]);
@@ -29,13 +25,15 @@ function Config() {
   const [approvalValues, setApprovalValues] = useState(null);
   const [rowClick, setRowClick] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [Approvalamount, setApprovalamount] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       const url =
         "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/documentmaster";
       const headers = {
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk0NTAxNzAsImlhdCI6MTY5OTQzNTc3MH0._ut-u_6vVRZzaHvL1DALsRUtqk4qcLyzSGQ-JYN4jc-Vh5uXUVTAg4RVCUZ7JIopLJ3HAWp28I8SyR8iyn53WQ",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw",
         Accept: "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
@@ -82,24 +80,61 @@ function Config() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw";
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/approvalamt",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        const approvalue = result.beans.map((bean) => bean.description);
+        console.log(approvalue, "result=====================================");
+        setApprovalamount(approvalue);
+
+        // setLevels(levelNames);
+      } catch (error) {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const booleanValues = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+  ];
+
+  const handleDropdownChange = (e) => {
+    setSelectedValue(e.value);
+  };
+
   const mergedArray = documentName.map((type, index) => ({
     documentName: type.documentName,
     documentType: format[index].documentType,
     minFileSize: minSize[index],
     maxFileSize: maxSize[index],
     category: category[index],
+    description: Approvalamount[index],
   }));
   console.log(mergedArray, "merged");
-  const booleanValues = [
-    { label: "Yes", value: true },
-    { label: "No", value: false },
-  ];
-  
-  function handleRowValueChange(e, id, field) {
-    if (field === "approvalRequired") {
-      setApprovalRequired({ ...approvalRequired, [id]: e.target.value });
-    }
-  }
 
   const handleApproverView = (row) => {
     setApproverPopup(true);
@@ -107,13 +142,13 @@ function Config() {
     setApproverPopupRowData(row);
   };
 
-
   const constructDropdownColumn = (field, header, options, minWidth) => {
     return (
       <Column
         className={"custDropdown inputPadding"}
         field={field}
         header={header}
+        // onChange={handleDropdownChange}
         style={{
           minWidth: minWidth,
           minWidth: "7rem",
@@ -128,8 +163,8 @@ function Config() {
                 {option.label}
               </div>
             )}
+            onChange={handleDropdownChange}
             value={row[field]}
-            onChange={(e) => handleRowValueChange(e, row.id, field)}
             options={options}
             optionLabel="label"
             placeholder="Select"
@@ -249,15 +284,9 @@ function Config() {
         <DataTable
           className="custompaginator custIconsImg custmBtnTable custTable p-datatable-tbody"
           scrollable
-          //  selectionMode={props.rowClick ? null : "checkbox"}
-          //  selection={props.dataTableSelectedRows}
           paginator
           paginatorTemplate={`FirstPageLink PrevPageLink PageLinks  'CurrentPageReport'} NextPageLink LastPageLink`}
           rows={5}
-          // isDataSelectable={(event) => {
-          //   return true;
-          // }}
-          // isDataSelectable={(event) => {  return !props.mandatoryRowIds.includes(event.data.id); }}
           selectionMode={rowClick ? null : "checkbox"}
           selection={selectedProducts}
           onSelectionChange={(e) => setSelectedProducts(e.value)}
@@ -266,7 +295,6 @@ function Config() {
           selectionAutoFocus={false}
           emptyMessage="No data found"
           value={mergedArray}
-          
         >
           <Column
             selectionMode="multiple"
@@ -308,9 +336,9 @@ function Config() {
             booleanValues
           )}
           {constructDropdownColumn(
-            "approvalValue",
+            "description",
             "Approval Value",
-            approvalValues,
+            Approvalamount,
             "7rem"
           )}
           ,
@@ -342,16 +370,24 @@ function Config() {
             "7rem"
           )}
           ,
-          <Column field="approverDepartment" header="Approver Department" body={(row) => (
-                    <button
-                      onClick={(e) => approvalRequired[row.id] ? handleApproverView(row) : e.preventDefault()}
-                      type="button"
-                      disabled={!approvalRequired[row.id]}
-                      className="underline text-[#0f6cbd] print:no-underline print:text-[#494E5F]"
-                    >
-                      View
-                    </button>
-                  )} />
+          <Column
+            field="approverDepartment"
+            header="Approver Department"
+            body={(row) => (
+              <button
+                onClick={(e) =>
+                  approvalRequired[row.id]
+                    ? handleApproverView(row)
+                    : e.preventDefault()
+                }
+                type="button"
+                disabled={!approvalRequired[row.id]}
+                className="underline text-[#0f6cbd] print:no-underline print:text-[#494E5F]"
+              >
+                View
+              </button>
+            )}
+          />
         </DataTable>
       </div>
     </div>
