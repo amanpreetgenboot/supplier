@@ -3,17 +3,93 @@ import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column"; 
+import { Column } from "primereact/column";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Paginator } from 'primereact/paginator';
+import 'primeicons/primeicons.css';
+
+        
 import axios from "axios";
 
-
-
-
 function Master() {
+  const [category, setCategory] = useState([]);
+  const [documentType, setDocumentType] = useState([]);
+  const [documentCategory, setDocumentCategory] = useState([]);
+  const [minSize, setMinSize] = useState([]);
+  const [maxSize, setMaxSize] = useState([]);
+  const [editIcon, setEditIcon] = useState([]);
+  const handleIconClick = () => {
+    // Handle the click event, for example, navigate to a specific record
+    console.log("Icon clicked for ID ");
+  };
 
+
+  useEffect(() => {
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ";
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/documentmaster",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        const categories = result.beans.map((bean) => {
+          return { category: bean.category.category };
+        });
+        setCategory(categories);
+        const documentTypesArray = result.beans.map(
+          (bean) => bean.documentTypes
+        );
+
+        const allDocumentTypes = documentTypesArray.flatMap((d) => d);
+
+        const documentTypeValues = allDocumentTypes.map(
+          (item) => item.documentType
+        );
+        setDocumentType(documentTypeValues);
+        const category = result.beans.map((bean) => bean.category.category);
+        setDocumentCategory(category);
+        const minSize = result.beans.map((bean) => bean.minFileSize);
+        setMinSize(minSize) 
+        const maxSize = result.beans.map((bean) => bean.maxFileSize);
+        setMaxSize(maxSize) 
+        const iconArray = maxSize.map(() =>  <i className="pi pi-pencil"></i>);
+        setEditIcon(iconArray)
+      } catch (error) {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const mergedArray = category.map((type, index) => ({
+    category: type.category,
+    Category: documentCategory[index],
+    minFileSize:minSize[index],
+    maxFileSize:maxSize[index],
+    documentType: documentType[index],
+    icon:editIcon[index]
+  }));
+  console.log(mergedArray, "yedyyy");
   return (
+    
     <div className="App">
       <div className="bgImage">
         <div className="bgimgHeader">
@@ -22,36 +98,32 @@ function Master() {
         </div>
 
         <div>
-          <Link to={"/AddUsers"}>
-          <Button
-            className="bgimage-btn"
-            label="Close"
-            icon="pi pi-times"
-            iconPos="right"
-            style={{ marginRight: "1.2rem" }}
-            severity="success"
-          />
-          </Link>
-     
+         
+            <Button
+              className="bgimage-btn"
+              label="Close"
+              icon="pi pi-times"
+              iconPos="right"
+              style={{ marginRight: "1.2rem" }}
+              severity="success"
+            />
+        
         </div>
       </div>
       <div>
-    
-
         <div className="editSetting">
           <div>
             <p>Document Masters</p>
           </div>
 
           <div className="cancelbtn">
-          <div className="searchBar">
+            <div className="searchBar">
               <span className="p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText placeholder="Search" className="SearchInput" />
               </span>
             </div>
             <div className="cancelbutton">
-              
               <Button label="Add Dimension" severity="secondary" outlined />
             </div>
             <div>
@@ -64,15 +136,17 @@ function Master() {
           </div>
         </div>
       </div>
+      
       <div>
         <DataTable
         
-        //   value={allItems}
+        
+          value={mergedArray}
           tableStyle={{ minWidth: "20rem" }}
           className="dataTable"
         >
           <Column
-            field="documentName"
+            field="category"
             style={{
               minWidth: "10rem",
               fontWeight: "400",
@@ -81,35 +155,38 @@ function Master() {
             header="Document Name"
           />
           <Column
-            field="documentName"
+            field="documentType"
             header="Document Type"
             style={{ minWidth: "5rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
           <Column
-            field="documentName"
+            field="Category"
             header="Category"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
           <Column
-            field="documentName"
+            field="minFileSize"
             header="Min File Size"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
           <Column
-            field="documentName"
-            header="	
-            Max File Size"
+            field="maxFileSize"
+            header="Max File Size"
             style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
           />
-          <Column
-            field="documentName"
-            header="Actions"
-            style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
-          ></Column>
+           <Column
+        header="Actions"
+        style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
+        body={(rowData) => (
+          <Link to={"./UpdateRecords"}>
+            <Button icon="pi pi-pencil" onClick={() => handleIconClick(rowData.id)} />
+          </Link>
+        )}
+      />
         </DataTable>
       </div>
 
-      <div></div>
+     
     </div>
   );
 }

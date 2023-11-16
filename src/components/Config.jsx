@@ -33,7 +33,7 @@ function Config() {
         "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/documentmaster";
       const headers = {
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ",
         Accept: "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
@@ -82,7 +82,7 @@ function Config() {
 
   useEffect(() => {
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw";
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ";
 
     const fetchData = async () => {
       try {
@@ -268,7 +268,9 @@ function Config() {
 
           <div className="cancelbtn">
             <div className="cancelbutton">
+            
               <Button label="Cancel" severity="secondary" outlined />
+              
             </div>
             <div>
               <Button

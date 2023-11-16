@@ -24,7 +24,7 @@ const AddConfiguration = () => {
 
   useEffect(() => {
     const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw"
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"
 
     const fetchData = async () => {
       try {
@@ -60,7 +60,7 @@ const AddConfiguration = () => {
 
   useEffect(() => {
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw"; 
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"; 
 
     const fetchData = async () => {
       try {
@@ -98,7 +98,7 @@ const AddConfiguration = () => {
   
   useEffect(() => {
     const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE2OTk2MDgwMDksImlhdCI6MTY5OTU5MzYwOX0.H026gzRSDa88_J-siDuYSJ5ad8k8UR4xWOI5Nm71DjERFm2xqfAOnQ2UUqtCqmX-eSUsCiaz-WpHnL4Wl4H8Fw"
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"
 
     const fetchData = async () => {
       try {
@@ -214,6 +214,7 @@ const AddConfiguration = () => {
               />
             </div>
             <div className="inpute-type">
+              
               <span>
                 Description <span style={{ color: "red" }}>*</span>
               </span>
@@ -232,7 +233,7 @@ const AddConfiguration = () => {
                 className="footer-btn"
                 style={{ backgroundColor: "white" }}
               />
-              <Link to={"./config"}>
+             <Link to={"/Master"}>
                 <Button
                   label="Create"
                   severity="success"
