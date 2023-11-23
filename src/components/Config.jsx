@@ -33,7 +33,7 @@ function Config() {
         "https://dev.supplychainapi.hexalytics.in:8086/v1/oms/metaData/documentmaster";
       const headers = {
         Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw",
         Accept: "*/*",
         "Accept-Encoding": "gzip, deflate, br",
         "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
@@ -82,7 +82,7 @@ function Config() {
 
   useEffect(() => {
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ";
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw";
 
     const fetchData = async () => {
       try {
@@ -103,9 +103,8 @@ function Config() {
         const result = await response.json();
         const approvalue = result.beans.map((bean) => bean.description);
         console.log(approvalue, "result=====================================");
-        setApprovalamount(approvalue);
+        // setApprovalamount(approvalue);
 
-        // setLevels(levelNames);
       } catch (error) {
         console.error(
           "There has been a problem with your fetch operation:",
@@ -132,7 +131,7 @@ function Config() {
     minFileSize: minSize[index],
     maxFileSize: maxSize[index],
     category: category[index],
-    description: Approvalamount[index],
+    // description: Approvalamount[index],
   }));
   console.log(mergedArray, "merged");
 
@@ -337,12 +336,12 @@ function Config() {
             "Approval Required",
             booleanValues
           )}
-          {constructDropdownColumn(
+          {/* {constructDropdownColumn(
             "description",
             "Approval Value",
             Approvalamount,
             "7rem"
-          )}
+          )} */}
           ,
           {constructDropdownColumn(
             "approvalValue",

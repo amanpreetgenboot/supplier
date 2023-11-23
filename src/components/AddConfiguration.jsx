@@ -24,7 +24,7 @@ const AddConfiguration = () => {
 
   useEffect(() => {
     const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw"
 
     const fetchData = async () => {
       try {
@@ -60,7 +60,7 @@ const AddConfiguration = () => {
 
   useEffect(() => {
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"; 
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw"; 
 
     const fetchData = async () => {
       try {
@@ -98,7 +98,7 @@ const AddConfiguration = () => {
   
   useEffect(() => {
     const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ"
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw"
 
     const fetchData = async () => {
       try {

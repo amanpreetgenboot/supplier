@@ -17,8 +17,8 @@ function App() {
 
   return (
     <>
-    <UpdateRecords/>
-      {/* <div>
+    {/* <UpdateRecords/> */}
+      <div>
         {!redirectToFirstPage && (
           <button onClick={handleButtonClick}>Add User</button>
         )}
@@ -30,7 +30,7 @@ function App() {
           <Route path = "/UpdateRecords" element = {<UpdateRecords/>} />
           
         </Routes>
-      </div> */}
+      </div>
     </>
   );
 }

@@ -1,16 +1,11 @@
 import "./DocumentMaster.css";
 import { InputText } from "primereact/inputtext";
-import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Paginator } from 'primereact/paginator';
 import 'primeicons/primeicons.css';
-
-        
-import axios from "axios";
 
 function Master() {
   const [category, setCategory] = useState([]);
@@ -19,15 +14,11 @@ function Master() {
   const [minSize, setMinSize] = useState([]);
   const [maxSize, setMaxSize] = useState([]);
   const [editIcon, setEditIcon] = useState([]);
-  const handleIconClick = () => {
-    // Handle the click event, for example, navigate to a specific record
-    console.log("Icon clicked for ID ");
-  };
-
+  const [selectedRowData, setSelectedRowData] = useState(null);
 
   useEffect(() => {
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo1LCJleHAiOjE3MDAxNDIxOTEsImlhdCI6MTcwMDEyNzc5MX0.weFgXb9Knx2mhJgVMEwSDqWnhFlPRmtIU_kTsgzvjwqXRNNOg_lFLCOk-D6q1tJ-pFSBRYTYaZpXHgUKavSsUQ";
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJrc2luZ2hAaGV4YWx5dGljcy5jb20iLCJyb2xlcyI6WyJBZG1pbmlzdHJhdG9yIl0sImlkIjo0LCJleHAiOjE3MDA3MzA3ODksImlhdCI6MTcwMDcxNjM4OX0.k02EyfK6dxmLnXmUaNEyVOLbnAn9KJWsifZo_9ntj0TTsRz-CsGguDnDs70-AFlcm03T3o4UtUs5vbB112prkw";
 
     const fetchData = async () => {
       try {
@@ -79,6 +70,8 @@ function Master() {
     fetchData();
   }, []);
 
+  
+
   const mergedArray = category.map((type, index) => ({
     category: type.category,
     Category: documentCategory[index],
@@ -88,6 +81,11 @@ function Master() {
     icon:editIcon[index]
   }));
   console.log(mergedArray, "yedyyy");
+
+  const handleRowSelect = (event) => {
+    setSelectedRowData(event.data);
+  };
+  console.log(handleRowSelect,"handleRow")
   return (
     
     <div className="App">
@@ -144,6 +142,8 @@ function Master() {
           value={mergedArray}
           tableStyle={{ minWidth: "20rem" }}
           className="dataTable"
+          selectionMode="single"
+          onRowSelect={handleRowSelect}
         >
           <Column
             field="category"
@@ -178,8 +178,11 @@ function Master() {
         header="Actions"
         style={{ minWidth: "7rem", fontWeight: "400", fontSize: "0.80rem" }}
         body={(rowData) => (
-          <Link to={"./UpdateRecords"}>
-            <Button icon="pi pi-pencil" onClick={() => handleIconClick(rowData.id)} />
+          <Link to="/UpdateRecords">
+            <Button
+              icon="pi pi-pencil"
+              onClick={() => setSelectedRowData(rowData)}
+            />
           </Link>
         )}
       />
