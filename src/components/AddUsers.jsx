@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
-import { Dialog } from 'primereact/dialog';
 import "../components/AddUser.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -22,50 +21,6 @@ const AddUsers = () => {
   const [selectedProductGroup, setselectedProductGroup] = useState(null);
   const [approvalRights, setApprovalRights] = useState(null);
   const [employeeId, setEmployeeId] = useState("");
-
-  const [employeeIdValid, setEmployeeIdValid] = useState(true);
-  const [validLevel, setValidLevel] = useState(true);
-  const [validDepartments, setValidDepartments] = useState(true);
-
-  const [showErrorPopup, setShowErrorPopup] = useState(false);
-
-
-  const handleCreateButtonClick = () => {
-    // Check validation for each field
-    if (!employeeId) {
-      setEmployeeIdValid(false);
-    } else {
-      setEmployeeIdValid(true);
-    }
-
-    if (!levels) {
-      setValidLevel(false);
-    } else {
-      setValidLevel(true);
-    }
-
-    if (!Departments) {
-      setValidDepartments(false);
-    } else {
-      setValidDepartments(true);
-    }
-
-  
-
-  if (!employeeIdValid || !validLevel || !validDepartments ) {
-    setShowErrorPopup(true);
-  } else {
-   console.log("no")
-  }
-}
-
-  const onHideErrorPopup = () => {
-   
-    setShowErrorPopup(false);
-  };
-
-
-
 
   useEffect(() => {
     const token =
@@ -288,7 +243,6 @@ const AddUsers = () => {
   };
   return (
     <>
-    
       <div className="from-main">
         <div className="from-body">
           <div className="form-header">
